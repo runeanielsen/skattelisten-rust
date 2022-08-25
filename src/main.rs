@@ -56,8 +56,8 @@ fn main() {
         .open(output_file_name)
         .unwrap();
 
-    let mut reader = io::BufReader::new(input_file);
-    let mut writer = io::BufWriter::new(output_file);
+    let mut reader = io::BufReader::with_capacity(4096, input_file);
+    let mut writer = io::LineWriter::with_capacity(4096, output_file);
 
     let mut line = String::new();
     loop {
@@ -67,10 +67,13 @@ fn main() {
                     break;
                 }
 
-                let company = create_company_from_csv_line(&line);
-                let json = serde_json::to_string(&company).unwrap() + "\n";
-
-                writer.write_all(json.as_bytes()).expect("Could not write all.");
+                writer
+                    .write_all(
+                        serde_json::to_string(&create_company_from_csv_line(&line))
+                            .unwrap()
+                            .as_bytes(),
+                    )
+                    .expect("Could not write all.");
 
                 line.clear();
             }
