@@ -20,24 +20,24 @@ struct Company {
 fn create_company_from_csv_line(csv_line: &str) -> Company {
     let mut row_columns = csv_line.split(',');
 
-    let csv = row_columns.next().unwrap();
-    let name = row_columns.next().unwrap();
-    let se = row_columns.next().unwrap();
-    let income_year = row_columns.next().unwrap();
-    _ = row_columns.next(); // Skip 5
-    let company_type = row_columns.next().unwrap();
-    _ = row_columns.next(); // Skip 7
-    _ = row_columns.next(); // Skip 8
+    let csv = row_columns.next().unwrap().to_string();
+    let name = row_columns.next().unwrap().to_string();
+    let se = row_columns.next().unwrap().to_string();
+    let income_year = row_columns.next().unwrap().to_string();
+    _ = row_columns.next().unwrap(); // Skip 5
+    let company_type = row_columns.next().unwrap().to_string();
+    _ = row_columns.next().unwrap(); // Skip 7
+    _ = row_columns.next().unwrap(); // Skip 8
     let taxable_income: u64 = row_columns.next().unwrap().parse().unwrap_or(0);
     let deficit = row_columns.next().unwrap().parse().unwrap_or(0);
     let corporate_tax = row_columns.next().unwrap().parse().unwrap_or(0);
 
     Company {
-        csv: String::from(csv),
-        name: String::from(name),
-        se: String::from(se),
-        income_year: String::from(income_year),
-        company_type: String::from(company_type),
+        csv,
+        name,
+        se,
+        income_year,
+        company_type,
         taxable_income,
         deficit,
         corporate_tax,
